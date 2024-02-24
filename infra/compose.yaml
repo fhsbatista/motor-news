@@ -3,3 +3,5 @@ services:
     image: "postgres:16.0-alpine3.18"
     environment:
       POSTGRES_PASSWORD: "a_simple_password"
+    ports:
+      - "7788:5432"
