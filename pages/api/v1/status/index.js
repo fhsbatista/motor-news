@@ -9,7 +9,10 @@ async function status(request, response) {
   const databaseMaxConnsQuery = await database.query("SHOW max_connections;");
   const databaseMaxConns = databaseMaxConnsQuery.rows[0].max_connections;
 
-  const databaseOpenedConnsQuery = await database.query("SELECT count(*)::int FROM pg_stat_activity WHERE datname = 'local_db';");
+  const databaseName = request.query.databaseName;
+  const query = `SELECT count(*)::int FROM pg_stat_activity WHERE datname = '${databaseName}';`;
+  console.log(query);
+  const databaseOpenedConnsQuery = await database.query(query);
   const databaseOpenedConns = databaseOpenedConnsQuery.rows[0].count;
 
 
