@@ -23,7 +23,8 @@ export default async function migrations(request, response) {
       ...defaultOptions,
       dryRun: false,
     });
-    response.status(200).json(migrations);
+    const statusCode = migrations.length > 0 ? 201 : 200;
+    response.status(statusCode).json(migrations);
   }
 
   return response.status(405).end();
