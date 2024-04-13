@@ -7,11 +7,21 @@ async function cleanDatabase() {
 }
 
 test("POST to /api/v1/migrations should return 200", async () => {
-  const response = await fetch("http://localhost:3000/api/v1/migrations", {
+  const responseBeforeMigrations = await fetch("http://localhost:3000/api/v1/migrations", {
     method: "POST",
   });
-  expect(response.status).toBe(200);
+  expect(responseBeforeMigrations.status).toBe(200);
 
-  const responseBody = await response.json();
-  expect(Array.isArray(responseBody)).toBe(true);
+  const responseBeforeMigrationsBody = await responseBeforeMigrations.json();
+  expect(Array.isArray(responseBeforeMigrationsBody)).toBe(true);
+  expect(responseBeforeMigrationsBody.length).toBeGreaterThan(0);
+
+  const responseAfterMigrations = await fetch("http://localhost:3000/api/v1/migrations", {
+    method: "POST",
+  });
+  expect(responseAfterMigrations.status).toBe(200);
+
+  const responseAfterMigrationsBody = await responseAfterMigrations.json();
+  expect(Array.isArray(responseAfterMigrationsBody)).toBe(true);
+  expect(responseAfterMigrationsBody.length).toBe(0);
 });
